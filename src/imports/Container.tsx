@@ -2,6 +2,7 @@ import svgPaths from "./svg-17yzu70kdl";
 import { useState } from "react";
 import SurgeryOverlay from "./Container-110-2709";
 import ProductDevelopmentOverlay from "./Container-110-2713";
+import { SkillTooltip } from "../app/components/SkillTooltip";
 
 function Text() {
   return (
@@ -12,9 +13,12 @@ function Text() {
 }
 
 function Container1() {
+  const [show, setShow] = useState(false);
   return (
-    <div className="absolute h-[21px] left-[42.7px] top-[204px] w-[154px]" data-name="Container">
+    <div className="absolute h-[21px] left-[42.7px] top-[204px] w-[154px] cursor-pointer" data-name="Container"
+      onMouseEnter={() => setShow(true)} onMouseLeave={() => setShow(false)}>
       <Text />
+      {show && <SkillTooltip skill="Service Design" description="Designing the end-to-end experience of a service — touchpoints, processes, and team workflows." owners={[{ name: "Andrew Chan", role: "HCI Researcher" }]} />}
     </div>
   );
 }
@@ -28,10 +32,13 @@ function Paragraph() {
 }
 
 function Container2() {
+  const [show, setShow] = useState(false);
   return (
-    <div className="absolute bg-[rgba(255,255,255,0.95)] content-stretch flex flex-col inset-[44.64%_58.15%_51.27%_28.64%] items-start pb-px pt-[7px] px-[11px] rounded-[16777200px]" data-name="Container">
+    <div className="absolute bg-[rgba(255,255,255,0.95)] content-stretch flex flex-col inset-[44.64%_58.15%_51.27%_28.64%] items-start pb-px pt-[7px] px-[11px] rounded-[16777200px] cursor-pointer" data-name="Container"
+      onMouseEnter={() => setShow(true)} onMouseLeave={() => setShow(false)}>
       <div aria-hidden="true" className="absolute border border-[#8ec5ff] border-solid inset-0 pointer-events-none rounded-[16777200px]" />
       <Paragraph />
+      {show && <SkillTooltip skill="UX Writing" description="Crafting interface copy — labels, errors, onboarding text — to guide users clearly and reduce friction." owners={[{ name: "Andrew Chan", role: "HCI Researcher" }]} />}
     </div>
   );
 }
@@ -45,10 +52,13 @@ function Paragraph1() {
 }
 
 function Container3() {
+  const [show, setShow] = useState(false);
   return (
-    <div className="absolute bg-[rgba(255,255,255,0.95)] content-stretch flex flex-col inset-[37.13%_28.99%_58.78%_53.67%] items-start pb-px pt-[7px] px-[11px] rounded-[16777200px]" data-name="Container">
+    <div className="absolute bg-[rgba(255,255,255,0.95)] content-stretch flex flex-col inset-[37.13%_28.99%_58.78%_53.67%] items-start pb-px pt-[7px] px-[11px] rounded-[16777200px] cursor-pointer" data-name="Container"
+      onMouseEnter={() => setShow(true)} onMouseLeave={() => setShow(false)}>
       <div aria-hidden="true" className="absolute border border-[#8ec5ff] border-solid inset-0 pointer-events-none rounded-[16777200px]" />
       <Paragraph1 />
+      {show && <SkillTooltip skill="Product Design" description="Translating user needs into visual interfaces, interaction flows, and testable prototypes." owners={[{ name: "Andrew Chan", role: "HCI Researcher" }]} />}
     </div>
   );
 }
@@ -62,10 +72,13 @@ function Paragraph2() {
 }
 
 function Container4() {
+  const [show, setShow] = useState(false);
   return (
-    <div className="-translate-x-1/2 -translate-y-1/2 absolute bg-[rgba(255,255,255,0.95)] content-stretch flex flex-col items-start left-[calc(50%-35.85px)] px-[9px] py-[5px] rounded-[16777200px] top-[calc(50%-91.35px)]" data-name="Container">
+    <div className="-translate-x-1/2 -translate-y-1/2 absolute bg-[rgba(255,255,255,0.95)] content-stretch flex flex-col items-start left-[calc(50%-35.85px)] px-[9px] py-[5px] rounded-[16777200px] top-[calc(50%-91.35px)] cursor-pointer" data-name="Container"
+      onMouseEnter={() => setShow(true)} onMouseLeave={() => setShow(false)}>
       <div aria-hidden="true" className="absolute border border-[#8ec5ff] border-solid inset-0 pointer-events-none rounded-[16777200px]" />
       <Paragraph2 />
+      {show && <SkillTooltip skill="Design Thinking" description="Human-centered problem solving: empathize, define, ideate, prototype, and test — iteratively." owners={[{ name: "Andrew Chan", role: "HCI Researcher" }, { name: "Daniel Kim", role: "Robotics Engineer" }]} />}
     </div>
   );
 }
@@ -79,9 +92,12 @@ function Text1() {
 }
 
 function Container5() {
+  const [show, setShow] = useState(false);
   return (
-    <div className="absolute h-[21px] left-[240.7px] top-[352px] w-[154px]" data-name="Container">
+    <div className="absolute h-[21px] left-[240.7px] top-[352px] w-[154px] cursor-pointer" data-name="Container"
+      onMouseEnter={() => setShow(true)} onMouseLeave={() => setShow(false)}>
       <Text1 />
+      {show && <SkillTooltip skill="Research Operations" description="Managing study logistics, recruitment, tools, and data pipelines to keep research running smoothly." owners={[{ name: "Dr. Maya Patel", role: "Clinician Support" }]} />}
     </div>
   );
 }
@@ -95,19 +111,25 @@ function Paragraph3() {
 }
 
 function Container6() {
+  const [show, setShow] = useState(false);
   return (
-    <div className="absolute bg-[rgba(255,255,255,0.95)] content-stretch flex flex-col inset-[67.63%_36.46%_28.28%_51.85%] items-start pb-px pt-[7px] px-[11px] rounded-[16777200px]" data-name="Container">
+    <div className="absolute bg-[rgba(255,255,255,0.95)] content-stretch flex flex-col inset-[67.63%_36.46%_28.28%_51.85%] items-start pb-px pt-[7px] px-[11px] rounded-[16777200px] cursor-pointer" data-name="Container"
+      onMouseEnter={() => setShow(true)} onMouseLeave={() => setShow(false)}>
       <div aria-hidden="true" className="absolute border border-[#8ec5ff] border-solid inset-0 pointer-events-none rounded-[16777200px]" />
       <Paragraph3 />
+      {show && <SkillTooltip skill="Medicine" description="Clinical knowledge that grounds design decisions in patient safety and medical best practice." owners={[{ name: "Dr. Bryan Carroll", role: "Dermatologic Surgeon" }, { name: "Dr. Maya Patel", role: "Clinician Support" }]} direction="above" />}
     </div>
   );
 }
 
 function Container7() {
+  const [show, setShow] = useState(false);
   return (
-    <div className="-translate-x-1/2 -translate-y-1/2 absolute bg-[rgba(255,255,255,0.95)] content-stretch flex flex-col items-start left-[calc(50%+93.15px)] px-[11px] py-[7px] rounded-[16777200px] top-[calc(50%+82.65px)]" data-name="Container">
+    <div className="-translate-x-1/2 -translate-y-1/2 absolute bg-[rgba(255,255,255,0.95)] content-stretch flex flex-col items-start left-[calc(50%+93.15px)] px-[11px] py-[7px] rounded-[16777200px] top-[calc(50%+82.65px)] cursor-pointer" data-name="Container"
+      onMouseEnter={() => setShow(true)} onMouseLeave={() => setShow(false)}>
       <div aria-hidden="true" className="absolute border border-[#8ec5ff] border-solid inset-0 pointer-events-none rounded-[16777200px]" />
       <p className="font-['Instrument_Sans',sans-serif] font-medium leading-[13.75px] not-italic relative shrink-0 text-[#101828] text-[10px] text-center tracking-[0.0645px] w-[96px]">Quantitative Research</p>
+      {show && <SkillTooltip skill="Quantitative Research" description="Using statistics and metrics to measure behavior, validate hypotheses, and track outcomes at scale." owners={[{ name: "Dr. Maya Patel", role: "Clinician Support" }, { name: "Daniel Kim", role: "Robotics Engineer" }]} direction="above" />}
     </div>
   );
 }
@@ -131,10 +153,18 @@ function Text3() {
 }
 
 function Container8() {
+  const [showMech, setShowMech] = useState(false);
+  const [showElec, setShowElec] = useState(false);
   return (
     <div className="absolute content-stretch flex flex-col gap-[4px] items-start left-[332.7px] top-[104px] w-[135.164px]" data-name="Container">
-      <Text2 />
-      <Text3 />
+      <div className="relative w-full cursor-pointer" onMouseEnter={() => setShowMech(true)} onMouseLeave={() => setShowMech(false)}>
+        <Text2 />
+        {showMech && <SkillTooltip skill="Mechanical Engineering" description="Designing, analyzing, and building physical mechanical systems and robotic components." owners={[{ name: "Daniel Kim", role: "Robotics Engineer" }]} />}
+      </div>
+      <div className="relative w-full cursor-pointer" onMouseEnter={() => setShowElec(true)} onMouseLeave={() => setShowElec(false)}>
+        <Text3 />
+        {showElec && <SkillTooltip skill="Electronics Engineering" description="Developing circuits, sensors, and embedded systems that power robotic hardware." owners={[{ name: "Daniel Kim", role: "Robotics Engineer" }]} />}
+      </div>
     </div>
   );
 }

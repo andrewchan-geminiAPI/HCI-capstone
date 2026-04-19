@@ -1,11 +1,10 @@
-import { useState } from "react";
+import { useState, useCallback, useRef, useEffect } from "react";
 import imgCarrollLabs from "../../assets/783f2c42ea769440e177775b6794f454354e65fd.png";
 import { Link, useNavigate, useParams } from "react-router";
 import { Header } from "../components/Header";
 import { ArrowLeft, MapPin, TrendingUp } from "lucide-react";
 import { VennDiagram4People } from "../components/VennDiagram4People";
 import { VennDiagram5People } from "../components/VennDiagram5People";
-import { VennDiagramDetailed } from "../components/VennDiagramDetailed";
 import { MatchExplanation } from "../components/MatchExplanation";
 import { MatchedTag } from "../components/MatchedTag";
 
@@ -13,6 +12,10 @@ export default function SkillsMap() {
   const navigate = useNavigate();
   const { id } = useParams();
   const [zoom, setZoom] = useState(0);
+  const [pan, setPan] = useState({ x: 0, y: 0 });
+  const [isDragging, setIsDragging] = useState(false);
+  const dragStart = useRef({ x: 0, y: 0 });
+  const containerRef = useRef<HTMLDivElement>(null);
   const [showYou, setShowYou] = useState(false);
   const [showMatchExplanation, setShowMatchExplanation] = useState(false);
 
@@ -73,8 +76,53 @@ export default function SkillsMap() {
     { name: "Product Development", position: { x: 410, y: 450 }, size: "sm" },
   ];
 
-  const handleZoomIn = () => setZoom(Math.min(zoom + 20, 100));
-  const handleZoomOut = () => setZoom(Math.max(zoom - 20, 0));
+  const ZOOM_STEP = 10;
+
+  const zoomAt = useCallback((newZoom: number, originX: number, originY: number) => {
+    const oldScale = 1 + zoom / 100;
+    const newScale = 1 + newZoom / 100;
+    setPan((p) => ({
+      x: originX - (originX - p.x) * (newScale / oldScale),
+      y: originY - (originY - p.y) * (newScale / oldScale),
+    }));
+    setZoom(newZoom);
+  }, [zoom]);
+
+  const handleZoomIn = () => {
+    const el = containerRef.current;
+    if (!el) return;
+    const { width, height } = el.getBoundingClientRect();
+    zoomAt(Math.min(zoom + ZOOM_STEP, 100), width / 2, height / 2);
+  };
+
+  const handleZoomOut = () => {
+    const el = containerRef.current;
+    if (!el) return;
+    const { width, height } = el.getBoundingClientRect();
+    zoomAt(Math.max(zoom - ZOOM_STEP, 0), width / 2, height / 2);
+  };
+
+  const handleWheel = useCallback((e: React.WheelEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    const rect = e.currentTarget.getBoundingClientRect();
+    const mx = e.clientX - rect.left;
+    const my = e.clientY - rect.top;
+    const delta = e.deltaY < 0 ? ZOOM_STEP : -ZOOM_STEP;
+    const newZoom = Math.min(100, Math.max(0, zoom + delta));
+    zoomAt(newZoom, mx, my);
+  }, [zoom, zoomAt]);
+
+  const handleMouseDown = (e: React.MouseEvent) => {
+    setIsDragging(true);
+    dragStart.current = { x: e.clientX - pan.x, y: e.clientY - pan.y };
+  };
+
+  const handleMouseMove = useCallback((e: React.MouseEvent) => {
+    if (!isDragging) return;
+    setPan({ x: e.clientX - dragStart.current.x, y: e.clientY - dragStart.current.y });
+  }, [isDragging]);
+
+  const handleMouseUp = () => setIsDragging(false);
 
   const getSkillSize = (size: string) => {
     if (size === "xs") return "text-[10px] px-2 py-1";
@@ -296,18 +344,23 @@ export default function SkillsMap() {
                 </div>
 
                 {/* Venn Diagram Container */}
-                <div className="relative h-[700px] bg-gray-50 rounded-lg border border-gray-200 overflow-hidden">
+                <div
+                  ref={containerRef}
+                  className="relative h-[700px] bg-gray-50 rounded-lg border border-gray-200 overflow-hidden"
+                  style={{ cursor: isDragging ? "grabbing" : "grab" }}
+                  onWheel={handleWheel}
+                  onMouseDown={handleMouseDown}
+                  onMouseMove={handleMouseMove}
+                  onMouseUp={handleMouseUp}
+                  onMouseLeave={handleMouseUp}
+                >
                   <div
-                    className="transition-transform duration-300 origin-top-left"
-                    style={{ 
-                      transform: `scale(${1 + zoom / 100})`,
+                    className={`origin-top-left${isDragging ? "" : " transition-transform duration-150"}`}
+                    style={{
+                      transform: `translate(${pan.x}px, ${pan.y}px) scale(${1 + zoom / 100})`,
                     }}
                   >
-                    {zoom > 0 ? (
-                      <VennDiagramDetailed />
-                    ) : (
-                      showYou ? <VennDiagram5People /> : <VennDiagram4People />
-                    )}
+                    {showYou ? <VennDiagram5People /> : <VennDiagram4People />}
                   </div>
                 </div>
               </div>
